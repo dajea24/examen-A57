@@ -1,4 +1,4 @@
-name: model-classification
+name: model-supervisé RL
 on: [push]
 jobs:
   run:
@@ -9,15 +9,10 @@ jobs:
       - name: cml_run
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
-
         run: |
           # Your ML workflow goes here
           pip install -r requirements.txt
           jupyter notebook Pointure_GaussianNB.ipynb
-          
           # Write your CML report
           echo "## Metriques:" >> report.md
           cat metrics.txt >> report.md
-          cml-publish confusion_matrix.png --md >> report.md
-          cml-send-comment report.md
